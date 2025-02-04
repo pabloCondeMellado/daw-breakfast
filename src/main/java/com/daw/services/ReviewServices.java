@@ -42,4 +42,9 @@ public class ReviewServices {
 		
 		return result;
 	}
+	
+	public List<Review> findReviewsOrderByPuntuacion() {
+	    return this.reviewCrudRepository.findAllByOrderByPuntuacionDesc();
+	}
+
 }

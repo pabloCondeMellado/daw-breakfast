@@ -64,4 +64,10 @@ public class ReviewController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/puntuacion")
+	public ResponseEntity<List<Review>> findReviewsOrderByPuntuacion() {
+	    return ResponseEntity.ok(this.reviewServices.findReviewsOrderByPuntuacion());
+	}
+
 }

@@ -45,6 +45,8 @@ public class Desayuno {
 	@OneToMany(mappedBy = "desayuno", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Review> review;
+
+
 	
 	
 }

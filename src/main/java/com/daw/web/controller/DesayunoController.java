@@ -63,4 +63,14 @@ public class DesayunoController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	@GetMapping("/establecimiento/{idEstablecimiento}/puntuacion")
+	public ResponseEntity<List<Desayuno>> findDesayunoEstablecimientoPuntuacion(@PathVariable int idEstablecimiento) {
+	    return ResponseEntity.ok(this.desayunoServices.findDesayunoEstablecimientoPuntuacion(idEstablecimiento));
+	}
+
+	@GetMapping("/establecimiento/{idEstablecimiento}/precio")
+	public ResponseEntity<List<Desayuno>> findDesayunoEstablecimientoPrecio(@PathVariable int idEstablecimiento) {
+	    return ResponseEntity.ok(this.desayunoServices.findDesayunoEstablecimientoPrecio(idEstablecimiento));
+	}
+
 }
