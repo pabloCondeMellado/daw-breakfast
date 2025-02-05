@@ -52,5 +52,7 @@ public class DesayunoServices {
 	    return this.desayunoCrudRepository.findDesayunoEstablecimientoPrecio(idEstablecimiento);
 	}
 
-
+	public List<Desayuno> findDesayunosPorPuntuacion() {
+		return desayunoCrudRepository.findDesayunosPorPuntuacion();
+	}
 }

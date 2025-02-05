@@ -9,5 +9,6 @@ import com.daw.persistence.entities.Review;
 public interface ReviewCrudRepository extends ListCrudRepository<Review, Integer>{
 
 	List<Review> findAllByOrderByPuntuacionDesc();
-
+	List<Review> findAllByOrderByFechaDesc();
+	List<Review> findAllByOrderByFechaAsc();
 }

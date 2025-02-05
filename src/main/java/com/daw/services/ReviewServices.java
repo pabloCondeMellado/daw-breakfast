@@ -47,4 +47,13 @@ public class ReviewServices {
 	    return this.reviewCrudRepository.findAllByOrderByPuntuacionDesc();
 	}
 
+	public List<Review> findReviewsOrderByFechaRecientes() {
+		return this.reviewCrudRepository.findAllByOrderByFechaDesc();
+	}
+
+	public List<Review> findReviewsOrderByFechaAntiguas() {
+		return this.reviewCrudRepository.findAllByOrderByFechaAsc();
+	}
+
+
 }
