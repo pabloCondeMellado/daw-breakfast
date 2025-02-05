@@ -73,4 +73,8 @@ public class DesayunoController {
 	    return ResponseEntity.ok(this.desayunoServices.findDesayunoEstablecimientoPrecio(idEstablecimiento));
 	}
 
+	@GetMapping("/ordenar/puntuacion")
+	public ResponseEntity<List<Desayuno>> findDesayunosPorPuntuacion() {
+		return ResponseEntity.ok(desayunoServices.findDesayunosPorPuntuacion());
+	}
 }
