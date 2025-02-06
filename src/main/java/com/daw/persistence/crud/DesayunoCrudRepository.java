@@ -11,5 +11,5 @@ public interface DesayunoCrudRepository extends ListCrudRepository<Desayuno, Int
 	List<Desayuno> findDesayunoEstablecimientoPuntuacion(Integer idEstablecimiento);
 	List<Desayuno> findDesayunoEstablecimientoPrecio(Integer idEstablecimiento);
 	List<Desayuno> findDesayunosPorPuntuacion();
-
+ 
 }
