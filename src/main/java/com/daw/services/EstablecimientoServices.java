@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.daw.persistence.crud.EstablecimientoCrudRepository;
+import com.daw.persistence.entities.Desayuno;
 import com.daw.persistence.entities.Establecimiento;
 
 
@@ -51,5 +52,6 @@ public class EstablecimientoServices {
 	public List<Establecimiento> getByPoblacion(String poblacion){
 		return this.establecimientoCrudRepository.findByUbicacionContaining(poblacion);
 	}
+
 
 }

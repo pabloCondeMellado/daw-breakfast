@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.daw.persistence.crud.DesayunoCrudRepository;
 import com.daw.persistence.entities.Desayuno;
+import com.daw.persistence.entities.Establecimiento;
 
 
 @Service
@@ -15,6 +16,10 @@ public class DesayunoServices {
 	//añado un comentario
 	@Autowired
 	private DesayunoCrudRepository desayunoCrudRepository;
+	
+	@Autowired
+	private EstablecimientoServices establecimientoServices;
+	
 	public List<Desayuno> findAll(){
 		return this.desayunoCrudRepository.findAll();
 	}
@@ -32,14 +37,18 @@ public class DesayunoServices {
 	}
 	
 	public Desayuno save(Desayuno desayuno) {
-		return this.desayunoCrudRepository.save(desayuno);
+		 this.desayunoCrudRepository.save(desayuno);
+		 ActualizarPuntuacionEstablecimiento(desayuno.getIdEstablecimiento());
+		return desayuno;
 	}
 	
 	public boolean deleteDesayuno(int idDesayuno) {
 		boolean result = false;
 		if(this.desayunoCrudRepository.existsById(idDesayuno)) {
+			Desayuno desayuno = this.desayunoCrudRepository.findById(idDesayuno).get();
 			this.desayunoCrudRepository.deleteById(idDesayuno);
 			result = true;
+			ActualizarPuntuacionEstablecimiento(desayuno.getIdEstablecimiento());
 		}
 		
 		return result;
@@ -70,4 +79,24 @@ public class DesayunoServices {
 		return desayuno;
 	}
 	
+	public void ActualizarPuntuacionEstablecimiento(int idEstablecimiento) {
+		if(this.establecimientoServices.existsEstablecimiento(idEstablecimiento)) {
+			Establecimiento establecimiento = this.establecimientoServices.findById(idEstablecimiento).get();
+			double contador = 0;
+			double puntuacion = 0;
+			double result =0;
+			List<Desayuno> desayunos = this.desayunoCrudRepository.findDesayunoByIdEstablecimiento(idEstablecimiento);
+			for(Desayuno d : desayunos) {
+				puntuacion += d.getPuntuacion();
+				contador++;
+			}
+			if(contador>0) {
+				result = puntuacion / contador;
+				establecimiento.setPuntuacion(result);
+			}else {
+				establecimiento.setPuntuacion(0.0);
+			}
+			this.establecimientoServices.save(establecimiento);
+		}
+	}
 }

@@ -29,7 +29,7 @@ public class Usuario {
 	private String username;
 	@Column(columnDefinition = "VARCHAR(50)")
 	private String email;
-	@Column(columnDefinition = "VARCHAR(50)")
+	@Column(columnDefinition = "VARCHAR(255)")
 	private String password;
 	
 	@OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)

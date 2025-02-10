@@ -56,20 +56,24 @@ public class ReviewServices {
 		review.setUsuario(this.usuarioServices.findById(review.getIdUsuario()).get());
 		review.setDesayuno(desayuno);
 		
-		
+		ActualizarPuntuacionDesayuno(review.getIdDesayuno());
 		
 		return ReviewMapper.toDTO(review);
 	}
 	
 	public Review save(Review review) {
-		return this.reviewCrudRepository.save(review);
+		this.reviewCrudRepository.save(review);
+		ActualizarPuntuacionDesayuno(review.getIdDesayuno());
+		return review;
 	}
 	
 	public boolean deleteReview(int idReview) {
 		boolean result = false;
 		if(this.reviewCrudRepository.existsById(idReview)) {
+			Review review = this.reviewCrudRepository.findById(idReview).get();
 			this.reviewCrudRepository.deleteById(idReview);
 			result = true;
+			ActualizarPuntuacionDesayuno(review.getIdDesayuno());
 		}
 		
 		return result;
@@ -151,5 +155,26 @@ public class ReviewServices {
 		
 		return reviewDTO;
 	}
-
+	public void ActualizarPuntuacionDesayuno(int idDesayuno) {
+		if(this.desayunoServices.existsDesayuno(idDesayuno)) {
+			Desayuno desayuno = this.desayunoServices.findById(idDesayuno).get();
+			double contador = 0;
+			double puntuacion = 0;
+			double result =0;
+			List<Review> reviews = this.reviewCrudRepository.findByIdDesayuno(idDesayuno);
+			for(Review r : reviews) {
+				puntuacion += r.getPuntuacion();
+				contador++;
+			}
+			if(contador>0) {
+				 result = puntuacion / contador;
+				 desayuno.setPuntuacion(result);
+			}else {
+				desayuno.setPuntuacion(0.0);
+				
+			}
+			this.desayunoServices.save(desayuno);
+			this.desayunoServices.ActualizarPuntuacionEstablecimiento(desayuno.getIdEstablecimiento());	
+		}
+	}
 }
