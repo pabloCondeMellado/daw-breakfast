@@ -17,13 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.daw.persistence.entities.Review;
+import com.daw.services.DesayunoServices;
 import com.daw.services.ReviewServices;
+import com.daw.services.dtos.ReviewDto;
 
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
 	@Autowired
 	private ReviewServices reviewServices;
+	@Autowired
+	private DesayunoServices desayunoServices;
 	
 	@GetMapping
 	public ResponseEntity<List<Review>> listaReview(){
@@ -78,5 +82,14 @@ public class ReviewController {
 	@GetMapping("/ordenar/antiguas")
 	public ResponseEntity<List<Review>> getReviewsOrderByAntiguas() {
 		return ResponseEntity.ok(reviewServices.findReviewsOrderByFechaAntiguas());
+	}
+
+	@GetMapping("/reciente/{idDesayuno}")
+	public ResponseEntity<List<ReviewDto>> reviewPorDesayunoMasReciente(@PathVariable int idDesayuno){
+		if(this.desayunoServices.existsDesayuno(idDesayuno)) {
+			return ResponseEntity.ok(this.reviewServices.getReviewByDesayunoMasRecientes(idDesayuno));
+		}
+		
+		return ResponseEntity.notFound().build();
 	}
 }

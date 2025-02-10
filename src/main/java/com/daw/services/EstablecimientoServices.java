@@ -43,5 +43,9 @@ public class EstablecimientoServices {
 		
 		return result;
 	}
+	public List<Establecimiento> getEstablecimientoPorPuntuacion(){
+		return this.establecimientoCrudRepository.findEstablecimientoByOrderByPuntuacionDesc();
+	}
+
 
 }

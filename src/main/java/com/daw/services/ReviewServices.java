@@ -1,5 +1,6 @@
 package com.daw.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.daw.persistence.crud.ReviewCrudRepository;
 import com.daw.persistence.entities.Review;
+import com.daw.services.dtos.ReviewDto;
+import com.daw.services.mappers.ReviewMapper;
 
 @Service
 public class ReviewServices {
@@ -53,6 +56,18 @@ public class ReviewServices {
 
 	public List<Review> findReviewsOrderByFechaAntiguas() {
 		return this.reviewCrudRepository.findAllByOrderByFechaAsc();
+	}
+
+	public List<ReviewDto> getReviewByDesayunoMasRecientes(int idDesayuno){
+		List<ReviewDto> reviewDTO = new ArrayList<ReviewDto>();
+		
+		List<Review> reviews =this.reviewCrudRepository.findReviewByIdDesayunoOrderByFechaDesc(idDesayuno);
+		
+		for(Review r : reviews ) {
+			reviewDTO.add(ReviewMapper.toDTO(r));
+		}
+		
+		return reviewDTO;
 	}
 
 

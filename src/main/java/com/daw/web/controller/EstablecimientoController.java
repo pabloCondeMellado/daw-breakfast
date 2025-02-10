@@ -63,4 +63,10 @@ public class EstablecimientoController {
 		
 		return ResponseEntity.notFound().build();
 	}
+
+	@GetMapping("/puntuacion")
+	public ResponseEntity<List<Establecimiento>> orderEstablecimientoPorPuntuacion(){
+		return ResponseEntity.ok(this.establecimientoServices.getEstablecimientoPorPuntuacion());
+	}
+
 }

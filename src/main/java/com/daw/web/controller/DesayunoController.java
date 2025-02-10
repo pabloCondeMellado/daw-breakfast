@@ -13,16 +13,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Desayuno;
 import com.daw.services.DesayunoServices;
+import com.daw.services.EstablecimientoServices;
 
 @RestController
 @RequestMapping("/desayuno")
 public class DesayunoController {
 	@Autowired
 	private DesayunoServices desayunoServices;
+	@Autowired
+	private EstablecimientoServices establecimientoServices;
 	
 	@GetMapping
 	public ResponseEntity<List<Desayuno>> listaDesayuno(){
@@ -76,5 +80,13 @@ public class DesayunoController {
 	@GetMapping("/ordenar/puntuacion")
 	public ResponseEntity<List<Desayuno>> findDesayunosPorPuntuacion() {
 		return ResponseEntity.ok(desayunoServices.findDesayunosPorPuntuacion());
+	}
+
+	@GetMapping("/establecimiento")
+	public ResponseEntity<List<Desayuno>> findDesayunoPorEstablecimiento(@RequestParam int idEstablecimiento){
+		if(this.establecimientoServices.existsEstablecimiento(idEstablecimiento)) {
+			return ResponseEntity.ok(this.desayunoServices.findDesayunoPorEstablecimiento(idEstablecimiento));
+		}
+		return ResponseEntity.notFound().build();
 	}
 }
