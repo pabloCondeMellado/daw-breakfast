@@ -24,15 +24,13 @@ public class ReviewServices {
 	
 	@Autowired
 	private DesayunoServices desayunoServices;
-	
-	
+
 	public List<ReviewDto> findAll(){
 		List<ReviewDto> reviewDTO = new ArrayList<ReviewDto>();
 		
 		for(Review r : this.reviewCrudRepository.findAll()){
 			reviewDTO.add(ReviewMapper.toDTO(r));
 		}
-		
 		return reviewDTO;
 	}
 	
@@ -47,6 +45,7 @@ public class ReviewServices {
 	public boolean existsReview(int idReview){
 		return this.reviewCrudRepository.existsById(idReview);
 	}
+
 	public ReviewDto create(Review review) {
 		Desayuno desayuno = this.desayunoServices.findById(review.getIdDesayuno()).get();
 		review.setFecha(LocalDateTime.now());
@@ -101,12 +100,32 @@ public class ReviewServices {
 	    return this.reviewCrudRepository.findAllByOrderByPuntuacionDesc();
 	}
 
-	public List<Review> findReviewsOrderByFechaRecientes() {
+	/*public List<Review> findReviewsOrderByFechaRecientes() {
 		return this.reviewCrudRepository.findAllByOrderByFechaDesc();
 	}
 
 	public List<Review> findReviewsOrderByFechaAntiguas() {
 		return this.reviewCrudRepository.findAllByOrderByFechaAsc();
+	}*/
+
+	public List<ReviewDto> findReviewsOrderByFechaRecientes() {
+		List<ReviewDto> reviewDtos = new ArrayList<>();
+
+		for (Review r : this.reviewCrudRepository.findAllByOrderByFechaDesc()){
+			reviewDtos.add(ReviewMapper.toDTO(r));
+		}
+
+		return reviewDtos;
+	}
+
+	public List<ReviewDto> findReviewsOrderByFechaAntiguas() {
+		List<ReviewDto> reviewDtos = new ArrayList<>();
+
+		for (Review r : this.reviewCrudRepository.findAllByOrderByFechaAsc()){
+			reviewDtos.add(ReviewMapper.toDTO(r));
+		}
+
+		return reviewDtos;
 	}
 
 	public List<ReviewDto> getReviewByDesayunoMasRecientes(int idDesayuno){

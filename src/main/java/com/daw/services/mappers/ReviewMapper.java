@@ -16,12 +16,9 @@ public class ReviewMapper {
 		
 		dto.setPuntuacion(review.getPuntuacion());
 		dto.setComentario(review.getComentarios());	
-		
-		
-		
+
 		return dto;
 		
 	}
-	
-	
+
 }

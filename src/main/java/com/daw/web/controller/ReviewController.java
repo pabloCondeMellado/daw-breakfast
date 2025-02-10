@@ -84,13 +84,23 @@ public class ReviewController {
 	    return ResponseEntity.ok(this.reviewServices.findReviewsOrderByPuntuacion());
 	}
 
-	@GetMapping("/ordenar/recientes")
+	/*@GetMapping("/ordenar/recientes")
 	public ResponseEntity<List<Review>> getReviewsOrderByRecientes() {
 		return ResponseEntity.ok(reviewServices.findReviewsOrderByFechaRecientes());
 	}
 
 	@GetMapping("/ordenar/antiguas")
 	public ResponseEntity<List<Review>> getReviewsOrderByAntiguas() {
+		return ResponseEntity.ok(reviewServices.findReviewsOrderByFechaAntiguas());
+	}*/
+
+	@GetMapping("/ordenar/recientes")
+	public ResponseEntity<List<ReviewDto>> getReviewsOrderByRecientes() {
+		return ResponseEntity.ok(reviewServices.findReviewsOrderByFechaRecientes());
+	}
+
+	@GetMapping("/ordenar/antiguas")
+	public ResponseEntity<List<ReviewDto>> getReviewsOrderByAntiguas() {
 		return ResponseEntity.ok(reviewServices.findReviewsOrderByFechaAntiguas());
 	}
 
