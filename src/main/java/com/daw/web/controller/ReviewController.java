@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.daw.persistence.entities.Review;
 import com.daw.services.DesayunoServices;
 import com.daw.services.ReviewServices;
+import com.daw.services.UsuarioServices;
 import com.daw.services.dtos.ReviewDto;
 
 @RestController
@@ -29,35 +30,44 @@ public class ReviewController {
 	@Autowired
 	private DesayunoServices desayunoServices;
 	
+	@Autowired
+	private UsuarioServices usuarioServices;
 	@GetMapping
-	public ResponseEntity<List<Review>> listaReview(){
+	public ResponseEntity<List<ReviewDto>> listaReview(){
 		return ResponseEntity.ok(this.reviewServices.findAll());
 	}
 	
 	@GetMapping("/{idReview}")
-	public ResponseEntity<Review> getReviewById(@PathVariable int idReview){
-		Optional<Review> desayuno = this.reviewServices.findById(idReview);
-		if(desayuno.isEmpty()) {
-			return ResponseEntity.notFound().build();
+	public ResponseEntity<ReviewDto> getReviewById(@PathVariable int idReview){
+	if(this.reviewServices.existsReview(idReview)) {
+		return ResponseEntity.ok(this.reviewServices.findById(idReview));
 		}
-		
-		return ResponseEntity.ok(desayuno.get());
+	return ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
-	public ResponseEntity<Review> createReview(@RequestBody Review review){
-		return new ResponseEntity<Review>(this.reviewServices.create(review), HttpStatus.CREATED);
+	public ResponseEntity<ReviewDto> createReview(@RequestBody Review review){
+		if(review.getPuntuacion() > 5 || review.getPuntuacion()<0) {
+			return ResponseEntity.badRequest().build();
+		}
+		if(!this.usuarioServices.exitsUsuario(review.getIdUsuario())) {
+			return ResponseEntity.notFound().build();
+		}
+		if(!this.desayunoServices.existsDesayuno(review.getIdDesayuno())) {
+			return ResponseEntity.notFound().build();
+		}
+		return new ResponseEntity<ReviewDto>(this.reviewServices.create(review),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{idReview}")
 	public ResponseEntity<Review> updateReview(@PathVariable int idReview, @RequestBody Review review){
 		if(idReview != review.getId()) {
 			return ResponseEntity.badRequest().build();
-		}else if(!this.reviewServices.deleteReview(idReview)) {
+		}else if(!this.reviewServices.existsReview(idReview)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(this.reviewServices.save(review));
 	}
 	
 	@DeleteMapping("/{idReview}")
@@ -92,4 +102,30 @@ public class ReviewController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/puntuacion/{idDesayuno}")
+	public ResponseEntity<List<ReviewDto>> reviewPorDesayunoMejorPuntuada(@PathVariable int idDesayuno){
+		if(this.desayunoServices.existsDesayuno(idDesayuno)) {
+			return ResponseEntity.ok(this.reviewServices.getReviewByDesayunoMejorPuntuadas(idDesayuno));
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	@GetMapping("/usuario/{idUsuario}")
+	public ResponseEntity<List<ReviewDto>> reviewDeUsuario(@PathVariable int idUsuario){
+		if(this.usuarioServices.exitsUsuario(idUsuario)) {
+			return ResponseEntity.ok(this.reviewServices.getReviewDeUsuario(idUsuario));
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/desayuno/{idDesayuno}")
+	public ResponseEntity<List<ReviewDto>> reviewDeDesayuno(@PathVariable int idDesayuno){
+		if(this.desayunoServices.existsDesayuno(idDesayuno)) {
+			return ResponseEntity.ok(this.reviewServices.getReviewDeDesayuno(idDesayuno));
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
 }

@@ -7,10 +7,10 @@ import org.springframework.data.repository.ListCrudRepository;
 import com.daw.persistence.entities.Desayuno;
 
 public interface DesayunoCrudRepository extends ListCrudRepository<Desayuno, Integer>{
-
-	List<Desayuno> findDesayunoEstablecimientoPuntuacion(Integer idEstablecimiento);
-	List<Desayuno> findDesayunoEstablecimientoPrecio(Integer idEstablecimiento);
-	List<Desayuno> findDesayunosPorPuntuacion();
+	
+	List<Desayuno> findByIdEstablecimientoOrderByPuntuacionDesc(Integer idEstablecimiento);
+	List<Desayuno> findByIdEstablecimientoOrderByPrecioDesc(Integer idEstablecimiento);
+	List<Desayuno> findAllByOrderByPuntuacionDesc();
 	List<Desayuno> findDesayunoByIdEstablecimiento(Integer idEstablecimiento);
  
 }

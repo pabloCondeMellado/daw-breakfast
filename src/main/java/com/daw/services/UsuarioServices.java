@@ -43,4 +43,12 @@ public class UsuarioServices {
 		
 		return result;
 	}
+	public Usuario updatePassword(int idUsuario, String newPassword) {
+		Usuario usuario = this.usuarioCrudRepository.findById(idUsuario).get();
+		
+		usuario.setPassword(newPassword);
+		usuario = this.usuarioCrudRepository.save(usuario);
+		
+		return usuario;
+	}
 }

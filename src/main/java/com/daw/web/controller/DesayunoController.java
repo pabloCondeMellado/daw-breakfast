@@ -52,14 +52,14 @@ public class DesayunoController {
 	public ResponseEntity<Desayuno> updateDesayuno(@PathVariable int idDesayuno, @RequestBody Desayuno desayuno){
 		if(idDesayuno != desayuno.getId()) {
 			return ResponseEntity.badRequest().build();
-		}else if(!this.desayunoServices.deleteDesayuno(idDesayuno)) {
+		}else if(!this.desayunoServices.existsDesayuno(idDesayuno)) {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(this.desayunoServices.save(desayuno));
 	}
 	
-	@DeleteMapping("/{idUsuario}")
+	@DeleteMapping("/{idDesayuno}")
 	public ResponseEntity<Desayuno> deleteDesayuno(@PathVariable int idDesayuno){
 		if(this.desayunoServices.deleteDesayuno(idDesayuno)) {
 			return ResponseEntity.ok().build();
@@ -67,6 +67,7 @@ public class DesayunoController {
 		
 		return ResponseEntity.notFound().build();
 	}
+	
 	@GetMapping("/establecimiento/{idEstablecimiento}/puntuacion")
 	public ResponseEntity<List<Desayuno>> findDesayunoEstablecimientoPuntuacion(@PathVariable int idEstablecimiento) {
 	    return ResponseEntity.ok(this.desayunoServices.findDesayunoEstablecimientoPuntuacion(idEstablecimiento));
@@ -89,4 +90,14 @@ public class DesayunoController {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@PutMapping("/{idDesayuno}/imagen")
+	public ResponseEntity<Desayuno> updateImage(@PathVariable int idDesayuno, @RequestParam String nuevaImagen){
+		if(this.desayunoServices.existsDesayuno(idDesayuno)) {
+			return ResponseEntity.ok(this.desayunoServices.updateImage(idDesayuno, nuevaImagen));
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
 }

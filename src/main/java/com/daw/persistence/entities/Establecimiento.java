@@ -34,7 +34,7 @@ public class Establecimiento {
 	@Column(columnDefinition = "DECIMAL(3,2)")
 	private Double puntuacion;
 	
-	@OneToMany(mappedBy = "etablecimiento", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "establecimiento", fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Desayuno> desayunos;
 }

@@ -39,10 +39,10 @@ public class Review {
 	private String comentarios;
 	
 	@ManyToOne
-	@JoinColumn(name="id_usuario", referencedColumnName = "id", nullable = false, updatable = false)
+	@JoinColumn(name="id_usuario", referencedColumnName = "id", insertable = false, updatable = false)
 	private Usuario usuario;
 	
 	@ManyToOne
-	@JoinColumn(name = "id_desayuno", referencedColumnName = "id", nullable = false, updatable = false)
+	@JoinColumn(name = "id_desayuno", referencedColumnName = "id", insertable = false, updatable = false)
 	private Desayuno desayuno;
 }

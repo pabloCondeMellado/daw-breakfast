@@ -12,4 +12,8 @@ public interface ReviewCrudRepository extends ListCrudRepository<Review, Integer
 	List<Review> findAllByOrderByFechaDesc();
 	List<Review> findAllByOrderByFechaAsc();
 	List<Review> findReviewByIdDesayunoOrderByFechaDesc(Integer idDesayuno);
+	List<Review> findByIdDesayunoOrderByPuntuacionDesc(Integer idDesayuno);
+	List<Review> findByIdUsuario(Integer idUsuario);
+	List<Review> findByIdDesayuno(Integer idDesayuno);
+	
 }

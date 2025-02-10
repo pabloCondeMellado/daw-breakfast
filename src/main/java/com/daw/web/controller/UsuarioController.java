@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Usuario;
@@ -52,7 +53,7 @@ public class UsuarioController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(this.usuarioServices.update(usuario));
 	}
 	
 	@DeleteMapping("/{idUsuario}")
@@ -61,6 +62,13 @@ public class UsuarioController {
 			return ResponseEntity.ok().build();
 		}
 		
+		return ResponseEntity.notFound().build();
+	}
+	@PutMapping("/{idUsuario}/password")
+	public ResponseEntity<Usuario> updatePassword(@PathVariable int idUsuario, @RequestParam String password){
+		if(this.usuarioServices.exitsUsuario(idUsuario)) {
+			return ResponseEntity.ok(this.usuarioServices.updatePassword(idUsuario, password));
+		}
 		return ResponseEntity.notFound().build();
 	}
 }

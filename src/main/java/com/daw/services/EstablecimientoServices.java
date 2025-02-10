@@ -43,9 +43,13 @@ public class EstablecimientoServices {
 		
 		return result;
 	}
+	
 	public List<Establecimiento> getEstablecimientoPorPuntuacion(){
 		return this.establecimientoCrudRepository.findEstablecimientoByOrderByPuntuacionDesc();
 	}
-
+	
+	public List<Establecimiento> getByPoblacion(String poblacion){
+		return this.establecimientoCrudRepository.findByUbicacionContaining(poblacion);
+	}
 
 }

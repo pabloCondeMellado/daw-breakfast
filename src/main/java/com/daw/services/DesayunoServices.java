@@ -27,6 +27,7 @@ public class DesayunoServices {
 		return this.desayunoCrudRepository.existsById(idDesayuno);
 	}
 	public Desayuno create(Desayuno desayuno) {
+		desayuno.setPuntuacion(0.0);
 		return this.desayunoCrudRepository.save(desayuno);
 	}
 	
@@ -45,18 +46,28 @@ public class DesayunoServices {
 	}
 	
 	public List<Desayuno> findDesayunoEstablecimientoPuntuacion(int idEstablecimiento) {
-	    return this.desayunoCrudRepository.findDesayunoEstablecimientoPuntuacion(idEstablecimiento);
+	    return this.desayunoCrudRepository.findByIdEstablecimientoOrderByPuntuacionDesc(idEstablecimiento);
 	}
 
 	public List<Desayuno> findDesayunoEstablecimientoPrecio(int idEstablecimiento) {
-	    return this.desayunoCrudRepository.findDesayunoEstablecimientoPrecio(idEstablecimiento);
+	    return this.desayunoCrudRepository.findByIdEstablecimientoOrderByPrecioDesc(idEstablecimiento);
 	}
 
 	public List<Desayuno> findDesayunosPorPuntuacion() {
-		return desayunoCrudRepository.findDesayunosPorPuntuacion();
+		return desayunoCrudRepository.findAllByOrderByPuntuacionDesc();
 	}
 
 	public List<Desayuno> findDesayunoPorEstablecimiento(int idEstablecimiento){
 		return this.desayunoCrudRepository.findDesayunoByIdEstablecimiento(idEstablecimiento);
 	}
+	
+	public Desayuno updateImage(int idDesayuno,String nuevaImagen) {
+		Desayuno desayuno = this.desayunoCrudRepository.findById(idDesayuno).get();
+		
+		desayuno.setImagen(nuevaImagen);
+		desayuno = this.desayunoCrudRepository.save(desayuno);
+		
+		return desayuno;
+	}
+	
 }

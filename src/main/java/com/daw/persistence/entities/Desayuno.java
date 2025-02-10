@@ -39,7 +39,7 @@ public class Desayuno {
 	private Double puntuacion;
 	
 	@ManyToOne
-	@JoinColumn(name="id_establecimiento", referencedColumnName = "id", nullable = false, updatable = false)
+	@JoinColumn(name="id_establecimiento", referencedColumnName = "id", insertable = false, updatable = false)
 	private Establecimiento establecimiento;
 	
 	@OneToMany(mappedBy = "desayuno", fetch = FetchType.LAZY)

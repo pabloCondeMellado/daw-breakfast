@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daw.persistence.entities.Establecimiento;
@@ -52,10 +53,10 @@ public class EstablecimientoController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(this.establecimientoServices.save(establecimiento));
 	}
 	
-	@DeleteMapping("/{idUsuario}")
+	@DeleteMapping("/{idEstablecimiento}")
 	public ResponseEntity<Establecimiento> deleteEstablecimiento(@PathVariable int idEstablecimiento){
 		if(this.establecimientoServices.deleteEstablecimiento(idEstablecimiento)) {
 			return ResponseEntity.ok().build();
@@ -68,5 +69,10 @@ public class EstablecimientoController {
 	public ResponseEntity<List<Establecimiento>> orderEstablecimientoPorPuntuacion(){
 		return ResponseEntity.ok(this.establecimientoServices.getEstablecimientoPorPuntuacion());
 	}
-
+	
+	@GetMapping("/poblacion")
+	public ResponseEntity<List<Establecimiento>> getByPoblacion(@RequestParam String poblacion){
+		return ResponseEntity.ok(this.establecimientoServices.getByPoblacion(poblacion));
+	}
+	
 }

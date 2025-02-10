@@ -7,5 +7,8 @@ import org.springframework.data.repository.ListCrudRepository;
 import com.daw.persistence.entities.Establecimiento;
 
 public interface EstablecimientoCrudRepository extends ListCrudRepository<Establecimiento, Integer> {
-    List<Establecimiento> findEstablecimientoByOrderByPuntuacionDesc();
+	
+	 List<Establecimiento> findEstablecimientoByOrderByPuntuacionDesc();
+	 List<Establecimiento> findByUbicacionContaining(String poblacion);
+    
 }
