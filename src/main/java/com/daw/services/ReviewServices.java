@@ -100,18 +100,19 @@ public class ReviewServices {
 		
 		return reviewDTO;
 	}
-	public List<Review> findReviewsOrderByPuntuacion() {
-	    return this.reviewCrudRepository.findAllByOrderByPuntuacionDesc();
+	
+	public List<ReviewDto> findReviewsOrderByPuntuacion() {
+	    List<ReviewDto> reviewDtos = new ArrayList<>();
+	    
+	    for (Review r : this.reviewCrudRepository.findAllByOrderByPuntuacionDesc()) {
+	        reviewDtos.add(ReviewMapper.toDTO(r));
+	    }
+
+	    return reviewDtos;
 	}
 
-	/*public List<Review> findReviewsOrderByFechaRecientes() {
-		return this.reviewCrudRepository.findAllByOrderByFechaDesc();
-	}
 
-	public List<Review> findReviewsOrderByFechaAntiguas() {
-		return this.reviewCrudRepository.findAllByOrderByFechaAsc();
-	}*/
-
+	
 	public List<ReviewDto> findReviewsOrderByFechaRecientes() {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
 
@@ -121,6 +122,14 @@ public class ReviewServices {
 
 		return reviewDtos;
 	}
+
+	/*public List<Review> findReviewsOrderByFechaRecientes() {
+	return this.reviewCrudRepository.findAllByOrderByFechaDesc();
+}
+
+public List<Review> findReviewsOrderByFechaAntiguas() {
+	return this.reviewCrudRepository.findAllByOrderByFechaAsc();
+}*/
 
 	public List<ReviewDto> findReviewsOrderByFechaAntiguas() {
 		List<ReviewDto> reviewDtos = new ArrayList<>();
