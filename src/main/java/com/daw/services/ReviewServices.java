@@ -51,6 +51,7 @@ public class ReviewServices {
 		review.setFecha(LocalDateTime.now());
 		review.setPrecio(desayuno.getPrecio());
 		review.setImagen(desayuno.getImagen());
+		
 		review = this.reviewCrudRepository.save(review);
 		
 		review.setUsuario(this.usuarioServices.findById(review.getIdUsuario()).get());
@@ -62,6 +63,10 @@ public class ReviewServices {
 	}
 	
 	public Review save(Review review) {
+		Desayuno desayuno = this.desayunoServices.findById(review.getIdDesayuno()).get();
+		review.setFecha(LocalDateTime.now());
+		review.setPrecio(desayuno.getPrecio());
+		review.setImagen(desayuno.getImagen());
 		this.reviewCrudRepository.save(review);
 		ActualizarPuntuacionDesayuno(review.getIdDesayuno());
 		return review;
