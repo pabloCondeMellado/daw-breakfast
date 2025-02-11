@@ -87,8 +87,10 @@ public class DesayunoServices {
 			double result =0;
 			List<Desayuno> desayunos = this.desayunoCrudRepository.findDesayunoByIdEstablecimiento(idEstablecimiento);
 			for(Desayuno d : desayunos) {
+				if(d.getPuntuacion()>0.0) {
 				puntuacion += d.getPuntuacion();
 				contador++;
+				}
 			}
 			if(contador>0) {
 				result = puntuacion / contador;

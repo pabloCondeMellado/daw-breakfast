@@ -28,6 +28,7 @@ public class EstablecimientoServices {
 		return this.establecimientoCrudRepository.existsById(idEstablecimiento);
 	}
 	public Establecimiento create(Establecimiento establecimiento) {
+		establecimiento.setPuntuacion(0.0);
 		return this.establecimientoCrudRepository.save(establecimiento);
 	}
 	

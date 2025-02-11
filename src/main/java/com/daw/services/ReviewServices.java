@@ -163,8 +163,11 @@ public class ReviewServices {
 			double result =0;
 			List<Review> reviews = this.reviewCrudRepository.findByIdDesayuno(idDesayuno);
 			for(Review r : reviews) {
-				puntuacion += r.getPuntuacion();
-				contador++;
+				if(r.getPuntuacion()>0.0) {
+					puntuacion += r.getPuntuacion();
+					contador++;
+				}
+				
 			}
 			if(contador>0) {
 				 result = puntuacion / contador;
